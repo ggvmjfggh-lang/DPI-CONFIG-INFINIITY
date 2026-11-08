@@ -1,0 +1,184 @@
+package com.infinity.dpiconfig;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+    private final int BACKGROUND = Color.rgb(13, 17, 28);
+    private final int PANEL = Color.rgb(25, 33, 49);
+    private final int ACCENT = Color.rgb(70, 160, 255);
+    private final int WHITE = Color.WHITE;
+
+    private LinearLayout root;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ScrollView scroll = new ScrollView(this);
+        scroll.setBackgroundColor(BACKGROUND);
+
+        root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(22, 30, 22, 30);
+
+        scroll.addView(root);
+        setContentView(scroll);
+
+        TextView title = new TextView(this);
+        title.setText("DPI CONFIG INFINITY");
+        title.setTextColor(ACCENT);
+        title.setTextSize(25);
+        title.setTypeface(null, Typeface.BOLD);
+        title.setGravity(Gravity.CENTER);
+        root.addView(title);
+
+        TextView subtitle = new TextView(this);
+        subtitle.setText("DEVICE PROFILE MANAGER");
+        subtitle.setTextColor(Color.LTGRAY);
+        subtitle.setTextSize(12);
+        subtitle.setGravity(Gravity.CENTER);
+        addSpace();
+        root.addView(subtitle);
+
+        addSpace();
+        addProfile("OPPO A38", "Android 15 • ColorOS 15");
+        addProfile("Free Fire", "Hồ sơ tham khảo cho Free Fire và Free Fire MAX");
+
+        addSpace();
+        addHeading("CẤU HÌNH THAM KHẢO");
+
+        addInfo("Smallest width", "632 dp");
+        addInfo("Animation - Window", "0.5x");
+        addInfo("Animation - Transition", "0.5x");
+        addInfo("Animator duration", "0.5x");
+        addInfo("Fire button", "40%");
+
+        addSpace();
+        addHeading("ĐỘ NHẠY THAM KHẢO");
+
+        addInfo("General", "189");
+        addInfo("Red Dot", "173");
+        addInfo("2x Scope", "167");
+        addInfo("4x Scope", "187");
+        addInfo("Sniper Scope", "102");
+        addInfo("Free Look", "200");
+
+        addSpace();
+        addButton("XEM HƯỚNG DẪN CÀI ĐẶT", this::showGuide);
+        addButton("GIỚI THIỆU ỨNG DỤNG", this::showAbout);
+
+        addSpace();
+        TextView footer = new TextView(this);
+        footer.setText("DPI CONFIG INFINITY • VERSION 1.0");
+        footer.setTextColor(Color.GRAY);
+        footer.setGravity(Gravity.CENTER);
+        footer.setTextSize(11);
+        root.addView(footer);view.setTextSize(17);
+        view.setTypeface(null, Typeface.BOLD);
+        view.setPadding(0, 15, 0, 10);
+        root.addView(view);
+    }
+
+    private void addInfo(String name, String value) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(15, 13, 15, 13);
+        row.setBackgroundColor(PANEL);
+
+        TextView left = new TextView(this);
+        left.setText(name);
+        left.setTextColor(WHITE);
+        left.setTextSize(14);
+
+        TextView right = new TextView(this);
+        right.setText(value);
+        right.setTextColor(ACCENT);
+        right.setTextSize(14);
+        right.setTypeface(null, Typeface.BOLD);
+        right.setGravity(Gravity.END);
+
+        row.addView(left, new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+        row.addView(right);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                -1, -2);
+        params.bottomMargin = 5;
+        root.addView(row, params);
+    }
+
+    private void addProfile(String title, String detail) {
+        TextView card = new TextView(this);
+        card.setText(title + "\n" + detail);
+        card.setTextColor(WHITE);
+        card.setTextSize(15);
+        card.setPadding(18, 16, 18, 16);
+        card.setBackgroundColor(PANEL);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.bottomMargin = 8;
+        root.addView(card, params);
+    }
+
+    private void addButton(String text, Runnable action) {
+        Button button = new Button(this);
+        button.setText(text);
+        button.setTextColor(WHITE);
+        button.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(ACCENT));
+        button.setOnClickListener(v -> action.run());
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.bottomMargin = 10;
+        root.addView(button, params);
+    }
+
+    private void addSpace() {
+        View space = new View(this);
+        root.addView(space, new LinearLayout.LayoutParams(-1, 15));
+    }
+
+    private void showGuide() {
+        new AlertDialog.Builder(this)
+                .setTitle("Hướng dẫn cài đặt")
+                .setMessage(
+                        "Các thông số trong ứng dụng là hồ sơ tham khảo.\n\n" +
+                        "Bạn có thể điều chỉnh thủ công trong cài đặt Android " +
+                        "và trong phần cài đặt Free Fire.\n\n" +
+                        "Ứng dụng không tự động điều khiển ngắm bắn, " +
+                        "không sửa dữ liệu trò chơi và không bảo đảm headshot.")
+                .setPositiveButton("ĐÃ HIỂU", null)
+                .show();
+    }
+
+    private void showAbout() {.setTitle("DPI CONFIG INFINITY")
+                .setMessage(
+                        "Phiên bản 1.0\n\n" +
+                        "Ứng dụng quản lý hồ sơ cấu hình thiết bị.\n" +
+                        "Các thay đổi DPI và độ nhạy cần được người dùng " +
+                        "thực hiện thủ công.")
+                .setPositiveButton("ĐÓNG", null)
+                .show();
+    }
+}
+        new AlertDialog.Builder(this)
+          
+    }
+
+    private void addHeading(String text) {
+        TextView view = new TextView(this);
+        view.setText(text);
+        view.setTextColor(ACCENT);
+      
